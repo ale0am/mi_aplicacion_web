@@ -1,0 +1,17 @@
+# Entorno virtual
+venv/
+mi_proyecto_web/
+
+# Django
+*.pyc
+__pycache__/
+db.sqlite3
+media/
+
+# IDE
+.vscode/
+.idea/
+
+# Sistema
+.DS_Store
+Thumbs.db
