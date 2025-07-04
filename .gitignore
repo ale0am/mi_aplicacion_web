@@ -1,17 +1,32 @@
 # Entorno virtual
 venv/
+env/
+ENV/
 mi_proyecto_web/
+Scripts/
+Lib/
+Include/
+pyvenv.cfg
 
-# Django
+# Python
 *.pyc
 __pycache__/
+*.pyo
+*.pyd
+.Python
+
+# Django
 db.sqlite3
+*.log
 media/
+staticfiles/
 
 # IDE
 .vscode/
 .idea/
+*.swp
+*.swo
 
-# Sistema
+# Sistema operativo
 .DS_Store
 Thumbs.db
