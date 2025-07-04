@@ -26,9 +26,36 @@ class UserSerializer(serializers.ModelSerializer):
 class ClienteSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     
+    # Campos para crear usuario automáticamente
+    username = serializers.CharField(write_only=True)
+    email = serializers.EmailField(write_only=True)
+    first_name = serializers.CharField(write_only=True)
+    last_name = serializers.CharField(write_only=True)
+    password = serializers.CharField(write_only=True)
+    
     class Meta:
         model = Cliente
-        fields = ['id', 'user', 'telefono', 'direccion', 'fecha_nacimiento']
+        fields = [
+            'id', 'user', 'telefono', 'direccion', 'fecha_nacimiento',
+            'username', 'email', 'first_name', 'last_name', 'password'
+        ]
+    
+    def create(self, validated_data):
+        # Extraer datos del usuario
+        user_data = {
+            'username': validated_data.pop('username'),
+            'email': validated_data.pop('email'),
+            'first_name': validated_data.pop('first_name'),
+            'last_name': validated_data.pop('last_name'),
+            'password': validated_data.pop('password'),
+        }
+        
+        # Crear usuario automáticamente
+        user = User.objects.create_user(**user_data)
+        
+        # Crear cliente asociado al usuario
+        cliente = Cliente.objects.create(user=user, **validated_data)
+        return cliente
 
 class DetallePedidoSerializer(serializers.ModelSerializer):
     producto_nombre = serializers.CharField(source='producto.nombre', read_only=True)
